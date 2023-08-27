@@ -20,11 +20,13 @@ export default function Home() {
     img.src = canvas.toDataURL()
     img.onload = () => {
       const qrImg = new Image()
-      const { height: canvasHeight, width: canvasWidth } = canvas
       qrImg.src = qr
       qrImg.onload = () => {
+        const { height: canvasHeight, width: canvasWidth } = canvas
         const { height: qrHeight, width: qrWidth } = qrImg
-        ctx?.drawImage(qrImg, canvasHeight - qrHeight - 10, canvasWidth - qrWidth - 10)
+        console.log(canvasHeight, canvasWidth, qrHeight, qrWidth)
+        // ctx?.drawImage(qrImg, Math.min(canvasWidth, 800), Math.min(canvasHeight, 800))
+        ctx?.drawImage(qrImg, canvasWidth - qrHeight - 10, canvasHeight - qrWidth - 10)
         // ctx.translate(-50,)
       }
     }
@@ -56,6 +58,8 @@ export default function Home() {
           const img = new Image()
           img.src = result as string
           img.onload = () => {
+            // canvas.height = Math.min(img.height, 800)
+            // canvas.width = Math.min(img.width, 800)
             canvas.height = img.height
             canvas.width = img.width
             context.drawImage(img, 0, 0)
@@ -80,7 +84,7 @@ export default function Home() {
         <div className="flex flex-col">
           <label className="text-4xl" htmlFor="img">Upload the image</label>
           <input onChange={handleUpload} type="file" />
-          <img className="max-h-[1200px] max-w-[1200px]" src={fileDataURL} alt="" />
+          <img className="" src={fileDataURL} alt="" />
         </div>
         <div className="flex flex-col">
           <label className="text-4xl" htmlFor="img">Enter QR code URL</label>
@@ -89,7 +93,7 @@ export default function Home() {
             <button className="rounded-md px-4 py-1 border-2" disabled={typeof file === undefined} onClick={handleSubmit}>Submit</button>
           </div>
           <canvas
-            className="max-h-[1200px] max-w-[1200px]"
+            className=""
             ref={canvasRef}
           ></canvas>
         </div>
